@@ -2,7 +2,7 @@
 	"name": "unikernel-ai-anthropic-service",
 	"description": "An ai unikernel anthropic service written in Rust",
 	"log_level": "debug",
-	"api_key": "",
+	"api_key_path": "/home/lzuccarelli/.anthropic/token",
 	"base_url": "https://api.anthropic.com/v1/messages",
 	"server_port": 8083
 }

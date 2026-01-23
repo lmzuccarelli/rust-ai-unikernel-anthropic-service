@@ -4,7 +4,7 @@ use serde_json::Value;
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct AnthropicResponse {
+pub struct AnthropicChatCompletions {
     pub model: String,
     pub id: String,
     #[serde(rename = "type")]
