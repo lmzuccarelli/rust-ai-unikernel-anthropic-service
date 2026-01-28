@@ -48,6 +48,15 @@ pub async fn endpoints(req: Request<Incoming>) -> Result<Response<Full<Bytes>>, 
                     }
                 };
             }
+            x if x.contains("/v1/health") => {
+                let mut content = format!(
+                    r##"{{ "status": "ok", "appplication": "{}", "version": "{}" }}"##,
+                    env!("CARGO_PKG_NAME"),
+                    env!("CARGO_PKG_VERSION"),
+                );
+                content.push('\n');
+                *response.body_mut() = Full::from(content);
+            }
             &_ => {}
         },
         Method::GET => match request {
@@ -57,7 +66,7 @@ pub async fn endpoints(req: Request<Incoming>) -> Result<Response<Full<Bytes>>, 
                     env!("CARGO_PKG_NAME"),
                     env!("CARGO_PKG_VERSION"),
                 );
-                content.push_str("\n");
+                content.push('\n');
                 *response.body_mut() = Full::from(content);
             }
             &_ => {}
@@ -97,6 +106,7 @@ async fn process_post_call(data: Bytes) -> Result<String, Box<dyn std::error::Er
         "[process_post_call] data {}",
         String::from_utf8(data.to_vec())?
     );
+
     let client_response = client
         .post(url)
         .header("Content-Type", "application/json")
